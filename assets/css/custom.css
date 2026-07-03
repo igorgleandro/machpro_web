@@ -1,0 +1,190 @@
+/* ============================================================
+   MachPRO — Gallery carousel (Bootstrap-style, fade) — v2
+   APPEND this block to assets/css/custom.css
+
+   IMPORTANT:
+   1. DELETE any older gallery/carousel blocks from custom.css:
+      - the .gallery-grid rules (grid era)
+      - the .gallery-carousel / .gallery-track / .carousel-arrow
+        block (first carousel)
+      - the previous version of THIS block, if pasted
+   2. Every selector below is scoped with #galleryCarousel, so
+      even if an old rule survives somewhere, these win the
+      cascade (ID specificity).
+   ============================================================ */
+
+#galleryCarousel {
+    position: relative;   /* CRITICAL: anchors the absolute arrows/counter */
+    display: block;       /* neutralizes any leftover display:flex from v1 */
+    margin: 1.5rem 0 2rem 0;
+}
+
+/* The stage: one image at a time, fixed 16:9 frame */
+#galleryCarousel .carousel-inner {
+    position: relative;   /* CRITICAL: anchors the absolute slides */
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Slides stacked on top of each other; only .active is visible.
+   Full reset so the theme's global <button> styles don't leak in. */
+#galleryCarousel .carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    line-height: normal;
+    letter-spacing: 0;
+    white-space: normal;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease-in-out; /* the crossfade */
+    cursor: zoom-in;
+}
+
+#galleryCarousel .carousel-item.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+#galleryCarousel .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0;
+}
+
+/* Hover overlay with the magnifier icon */
+#galleryCarousel .gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+}
+
+#galleryCarousel .carousel-item:hover .gallery-overlay,
+#galleryCarousel .carousel-item:focus-visible .gallery-overlay {
+    opacity: 1;
+}
+
+#galleryCarousel .gallery-icon {
+    font-size: 2rem;
+}
+
+/* Arrow controls overlaid on the image edges, vertically centered */
+#galleryCarousel .carousel-control-prev,
+#galleryCarousel .carousel-control-next {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;      /* belt and braces against theme height rules */
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: normal;
+    color: #ffffff;
+    font-size: 1.6rem;
+    opacity: 0.6;
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+    z-index: 2;
+}
+
+#galleryCarousel .carousel-control-prev {
+    left: 0;
+    right: auto;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.35), transparent);
+}
+
+#galleryCarousel .carousel-control-next {
+    right: 0;
+    left: auto;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.35), transparent);
+}
+
+#galleryCarousel .carousel-control-prev:hover,
+#galleryCarousel .carousel-control-next:hover,
+#galleryCarousel .carousel-control-prev:focus-visible,
+#galleryCarousel .carousel-control-next:focus-visible {
+    opacity: 1;
+    background-color: transparent; /* stops theme hover backgrounds */
+}
+
+/* "N / 25" counter, bottom-right */
+#galleryCarousel .carousel-counter {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.75rem;
+    z-index: 2;
+    padding: 0.15rem 0.65rem;
+    border-radius: 1rem;
+    background: rgba(0, 0, 0, 0.55);
+    color: #ffffff;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+}
+
+/* Bootstrap's screen-reader-only utility */
+#galleryCarousel .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Mobile: slightly taller frame and bigger touch targets */
+@media screen and (max-width: 736px) {
+    #galleryCarousel .carousel-inner {
+        aspect-ratio: 4 / 3;
+    }
+
+    #galleryCarousel .carousel-control-prev,
+    #galleryCarousel .carousel-control-next {
+        width: 20%;
+        font-size: 1.3rem;
+    }
+}
+
+/* TEMP TEST — remove after confirming */
+#galleryCarousel .carousel-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    max-width: none !important;
+    max-height: none !important;
+}
