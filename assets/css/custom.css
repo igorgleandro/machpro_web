@@ -1,27 +1,369 @@
 /* ============================================================
-   MachPRO — Gallery carousel (Bootstrap-style, fade) — v2
-   APPEND this block to assets/css/custom.css
+   MachPRO — custom.css  (v2.0.0)
 
-   IMPORTANT:
-   1. DELETE any older gallery/carousel blocks from custom.css:
-      - the .gallery-grid rules (grid era)
-      - the .gallery-carousel / .gallery-track / .carousel-arrow
-        block (first carousel)
-      - the previous version of THIS block, if pasted
-   2. Every selector below is scoped with #galleryCarousel, so
-      even if an old rule survives somewhere, these win the
-      cascade (ID specificity).
+   TODAS as personalizações do site vivem NESTE arquivo.
+   assets/css/main.css é o tema Dimension (HTML5 UP) original e
+   NÃO deve ser editado. Como custom.css é carregado depois de
+   main.css, estas regras vencem a cascata.
+
+   Removido nesta limpeza (código morto ou nocivo):
+   - :root com variáveis CSS nunca usadas
+   - bloco global @media (prefers-reduced-motion) que matava
+     TODAS as animações do tema
+   - .gallery-grid / .gallery-item da era "grade" (substituídos
+     pelo carrossel #galleryCarousel)
+   - .gallery-overlay / .gallery-icon (nenhum elemento no HTML)
+   - .file-upload* / .form-message* (o formulário foi removido)
+   - display:block !important no artigo #portfolio (impedia o
+     JS do tema de esconder o painel)
+   - bloco "TEMP TEST" do carrossel
    ============================================================ */
 
+/* ==================================================================
+   1. HEADER — logo
+   ================================================================== */
+
+.header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+/* ==================================================================
+   2. ARTIGOS LARGOS — largura + rolagem interna
+   Escopado por ID de propósito: aplicar overflow/max-height ao
+   seletor genérico "#main article" quebra a centralização
+   flexbox vertical do tema.
+   ================================================================== */
+
+body.is-article-visible {
+    overflow: hidden;
+}
+
+#main article#work,
+#main article#portfolio,
+#main article#clients,
+#main article#workwithus,
+#main article#contact {
+    width: 90vw !important;
+    max-width: 1400px !important;
+    padding: 4.5rem 2rem 2rem 2rem !important;
+    max-height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+}
+
+#main article#work::-webkit-scrollbar,
+#main article#portfolio::-webkit-scrollbar,
+#main article#clients::-webkit-scrollbar,
+#main article#workwithus::-webkit-scrollbar,
+#main article#contact::-webkit-scrollbar {
+    width: 8px;
+}
+
+#main article#work::-webkit-scrollbar-track,
+#main article#portfolio::-webkit-scrollbar-track,
+#main article#clients::-webkit-scrollbar-track,
+#main article#workwithus::-webkit-scrollbar-track,
+#main article#contact::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+#main article#work::-webkit-scrollbar-thumb,
+#main article#portfolio::-webkit-scrollbar-thumb,
+#main article#clients::-webkit-scrollbar-thumb,
+#main article#workwithus::-webkit-scrollbar-thumb,
+#main article#contact::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+#main article#work::-webkit-scrollbar-thumb:hover,
+#main article#portfolio::-webkit-scrollbar-thumb:hover,
+#main article#clients::-webkit-scrollbar-thumb:hover,
+#main article#workwithus::-webkit-scrollbar-thumb:hover,
+#main article#contact::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+@media screen and (max-width: 1680px) {
+    #main article#work,
+    #main article#portfolio,
+    #main article#clients,
+    #main article#workwithus,
+    #main article#contact {
+        padding: 4rem 1.5rem 1.5rem 1.5rem !important;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    #main article#work,
+    #main article#portfolio,
+    #main article#clients,
+    #main article#workwithus,
+    #main article#contact {
+        width: 95vw !important;
+        padding: 3.5rem 1rem 1rem 1rem !important;
+        max-height: 90vh;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #main article#work,
+    #main article#portfolio,
+    #main article#clients,
+    #main article#workwithus,
+    #main article#contact {
+        padding: 3rem 0.5rem 1rem 0.5rem !important;
+        max-height: 95vh;
+    }
+}
+
+/* ==================================================================
+   3. PARÁGRAFOS DE INTRODUÇÃO (Ramo de Atuação, Clientes,
+      Trabalhe Conosco, Contato)
+   ================================================================== */
+
+.work-intro,
+.clients-intro,
+.workwithus-intro,
+.contact-intro {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin: 1.5rem auto 3rem;
+    max-width: 800px;
+    display: block;
+}
+
+@media screen and (max-width: 736px) {
+    .work-intro,
+    .clients-intro,
+    .workwithus-intro,
+    .contact-intro {
+        font-size: 0.85rem;
+        margin: 1rem auto 2rem;
+    }
+}
+
+/* ==================================================================
+   4. CARDS (Ramo de Atuação, Serviços e Portfólio)
+   As três famílias de card compartilham o mesmo visual — as
+   regras ficam agrupadas para não haver triplicação.
+   ================================================================== */
+
+.work-grid,
+.services-grid,
+.portfolio-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin: -0.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.work-card,
+.services-card,
+.portfolio-card {
+    flex: 0 0 calc(33.333% - 1rem) !important;
+    margin: 0.5rem !important;
+    position: relative;
+    background-color: rgba(27, 31, 34, 0.85);
+    border-radius: 4px;
+    padding: 2rem;
+    border: solid 1px #ffffff;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    display: block !important;
+    box-sizing: border-box;
+}
+
+.work-card:hover,
+.services-card:hover,
+.portfolio-card:hover {
+    transform: translateY(-0.5rem);
+    background-color: rgba(255, 255, 255, 0.075);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+}
+
+.work-icon,
+.services-icon,
+.portfolio-icon {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    border: solid 1px #ffffff;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out;
+    background-color: transparent;
+}
+
+.work-card:hover .work-icon,
+.services-card:hover .services-icon,
+.portfolio-card:hover .portfolio-icon {
+    background-color: rgba(255, 255, 255, 0.075);
+    transform: scale(1.1);
+}
+
+.work-title,
+.services-title,
+.portfolio-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    line-height: 1.5;
+    display: block;
+}
+
+.work-description,
+.services-description,
+.portfolio-description {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.65;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+    display: block;
+}
+
+.portfolio-description {
+    margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width: 980px) {
+    .work-card,
+    .services-card,
+    .portfolio-card {
+        flex: 0 0 calc(50% - 1rem) !important;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    .work-card,
+    .services-card,
+    .portfolio-card {
+        flex: 0 0 calc(100% - 1rem) !important;
+        padding: 1.5rem;
+    }
+
+    .work-icon,
+    .services-icon,
+    .portfolio-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 1.75rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .work-card,
+    .services-card,
+    .portfolio-card {
+        padding: 1.25rem;
+    }
+
+    .work-title,
+    .services-title,
+    .portfolio-title {
+        font-size: 0.9rem;
+    }
+
+    .work-description,
+    .services-description,
+    .portfolio-description {
+        font-size: 0.85rem;
+    }
+}
+
+/* ==================================================================
+   5. PORTFÓLIO — badge "Em breve" e tags
+   ================================================================== */
+
+.portfolio-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    border: solid 1px rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease-in-out;
+    z-index: 10;
+}
+
+.portfolio-card:hover .portfolio-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.portfolio-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.portfolio-tags .tag {
+    display: inline-block;
+    background-color: transparent;
+    border: solid 1px rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.75);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.portfolio-card:hover .tag {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+}
+
+@media screen and (max-width: 480px) {
+    .portfolio-badge {
+        top: 0.75rem;
+        right: 0.75rem;
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+    }
+}
+
+/* ==================================================================
+   6. GALERIA — carrossel estilo Bootstrap (fade)
+   Cada seletor é escopado com #galleryCarousel: mesmo que uma
+   regra antiga sobreviva em algum lugar, a especificidade de ID
+   vence a cascata.
+   ================================================================== */
+
 #galleryCarousel {
-    position: relative;   /* CRITICAL: anchors the absolute arrows/counter */
-    display: block;       /* neutralizes any leftover display:flex from v1 */
+    position: relative;   /* ancora as setas/contador absolutos */
+    display: block;
     margin: 1.5rem 0 2rem 0;
 }
 
-/* The stage: one image at a time, fixed 16:9 frame */
+/* O palco: uma imagem por vez, moldura fixa 16:9 */
 #galleryCarousel .carousel-inner {
-    position: relative;   /* CRITICAL: anchors the absolute slides */
+    position: relative;   /* ancora os slides absolutos */
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;
@@ -30,8 +372,9 @@
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* Slides stacked on top of each other; only .active is visible.
-   Full reset so the theme's global <button> styles don't leak in. */
+/* Slides empilhados; só o .active fica visível.
+   Reset completo para os estilos globais de <button> do tema
+   não vazarem para dentro do carrossel. */
 #galleryCarousel .carousel-item {
     position: absolute;
     top: 0;
@@ -50,7 +393,7 @@
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.6s ease-in-out; /* the crossfade */
+    transition: opacity 0.6s ease-in-out; /* o crossfade */
     cursor: zoom-in;
 }
 
@@ -68,37 +411,13 @@
     margin: 0;
 }
 
-/* Hover overlay with the magnifier icon */
-#galleryCarousel .gallery-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.35);
-    opacity: 0;
-    transition: opacity 0.25s ease-in-out;
-}
-
-#galleryCarousel .carousel-item:hover .gallery-overlay,
-#galleryCarousel .carousel-item:focus-visible .gallery-overlay {
-    opacity: 1;
-}
-
-#galleryCarousel .gallery-icon {
-    font-size: 2rem;
-}
-
-/* Arrow controls overlaid on the image edges, vertically centered */
+/* Setas sobrepostas nas bordas da imagem, centradas na vertical */
 #galleryCarousel .carousel-control-prev,
 #galleryCarousel .carousel-control-next {
     position: absolute;
     top: 0;
     bottom: 0;
-    height: 100%;      /* belt and braces against theme height rules */
+    height: 100%;
     width: 15%;
     display: flex;
     align-items: center;
@@ -137,10 +456,10 @@
 #galleryCarousel .carousel-control-prev:focus-visible,
 #galleryCarousel .carousel-control-next:focus-visible {
     opacity: 1;
-    background-color: transparent; /* stops theme hover backgrounds */
+    background-color: transparent; /* bloqueia hover do tema */
 }
 
-/* "N / 25" counter, bottom-right */
+/* Contador "N / 25", canto inferior direito */
 #galleryCarousel .carousel-counter {
     position: absolute;
     bottom: 0.6rem;
@@ -154,7 +473,7 @@
     letter-spacing: 0.15em;
 }
 
-/* Bootstrap's screen-reader-only utility */
+/* Utilitário só-para-leitores-de-tela (estilo Bootstrap) */
 #galleryCarousel .visually-hidden {
     position: absolute;
     width: 1px;
@@ -167,7 +486,6 @@
     border: 0;
 }
 
-/* Mobile: slightly taller frame and bigger touch targets */
 @media screen and (max-width: 736px) {
     #galleryCarousel .carousel-inner {
         aspect-ratio: 4 / 3;
@@ -180,11 +498,572 @@
     }
 }
 
-/* TEMP TEST — remove after confirming */
-#galleryCarousel .carousel-item img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    max-width: none !important;
-    max-height: none !important;
+/* ==================================================================
+   7. LIGHTBOX
+   close/prev/next são <button>: reset dos estilos globais de
+   botão do tema para renderizarem como controles simples.
+   O JS alterna a classe .active (assets/js/components/lightbox.js).
+   ================================================================== */
+
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.95);
+    animation: fadeIn 0.3s;
+}
+
+.lightbox.active {
+    display: block;
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 4px;
+    animation: zoomIn 0.3s;
+}
+
+.lightbox-caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ffffff;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: none;
+    font: inherit;
+    color: #ffffff;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    box-shadow: none !important;
+    height: auto !important;
+    line-height: 1 !important;
+    border-radius: 0 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    white-space: normal !important;
+    display: block;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    font-size: 40px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: #bbb;
+    background: none;
+}
+
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    font-weight: bold;
+    font-size: 30px;
+    transition: 0.3s ease;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.lightbox-prev {
+    left: 0;
+    border-radius: 0 3px 3px 0 !important;
+}
+
+.lightbox-next {
+    right: 0;
+    border-radius: 3px 0 0 3px !important;
+}
+
+.lightbox-prev:hover,
+.lightbox-prev:focus,
+.lightbox-next:hover,
+.lightbox-next:focus {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    color: #ffffff;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}
+
+@media screen and (max-width: 736px) {
+    .lightbox-content {
+        max-width: 95%;
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+        font-size: 20px;
+        padding: 10px;
+    }
+
+    .lightbox-close {
+        top: 10px;
+        right: 15px;
+        font-size: 30px;
+    }
+}
+
+/* ==================================================================
+   8. CLIENTES
+   ================================================================== */
+
+.clients-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin: -0.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.client-logo {
+    flex: 0 0 calc(25% - 1rem) !important;
+    margin: 0.5rem !important;
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 2rem;
+    border: solid 2px #1b1f22;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 180px;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+.client-logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    pointer-events: none;
+    box-shadow: inset 0.5rem 0.5rem 0.5rem rgba(27, 31, 34, 0.15),
+    inset -0.5rem -0.5rem 0.5rem rgba(27, 31, 34, 0.15);
+    transition: all 0.3s ease-in-out;
+}
+
+.client-logo:hover {
+    transform: translateY(-0.5rem);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+    border-color: #ffffff;
+}
+
+.client-logo:hover::before {
+    box-shadow: inset 0.75rem 0.75rem 0.75rem rgba(27, 31, 34, 0.2),
+    inset -0.75rem -0.75rem 0.75rem rgba(27, 31, 34, 0.2);
+}
+
+.client-logo img {
+    max-width: 100%;
+    max-height: 120px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.7;
+}
+
+.client-logo:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+@media screen and (max-width: 980px) {
+    .client-logo {
+        flex: 0 0 calc(33.333% - 1rem) !important;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    .client-logo {
+        flex: 0 0 calc(50% - 1rem) !important;
+        padding: 1.5rem;
+        min-height: 140px;
+    }
+
+    .client-logo img {
+        max-height: 100px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .client-logo {
+        padding: 1rem;
+        min-height: 120px;
+    }
+
+    .client-logo img {
+        max-height: 80px;
+    }
+}
+
+/* ==================================================================
+   9. TRABALHE CONOSCO
+   ================================================================== */
+
+.workwithus-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+}
+
+.career-highlights {
+    flex: 1 1 calc(40% - 1rem);
+    min-width: 300px;
+    background-color: rgba(27, 31, 34, 0.85);
+    border: solid 1px #ffffff;
+    border-radius: 4px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.highlights-title {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    line-height: 1.5;
+    margin: 0 0 1rem 0;
+    border-bottom: solid 1px #ffffff;
+    padding-bottom: 0.5rem;
+}
+
+.highlights-intro {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.65;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.65;
+}
+
+.benefit-icon {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: solid 1px #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 0.7rem;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.benefit-text {
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.career-form-container {
+    flex: 1 1 calc(60% - 1rem);
+    min-width: 300px;
+    background-color: rgba(27, 31, 34, 0.85);
+    border: solid 1px #ffffff;
+    border-radius: 4px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.form-title {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    line-height: 1.5;
+    margin: 0 0 2rem 0;
+    border-bottom: solid 1px #ffffff;
+    padding-bottom: 0.5rem;
+}
+
+/* Substitui o style inline do parágrafo "Envie seu currículo" */
+.career-email-note {
+    text-align: center;
+    font-size: 1rem;
+    margin: 2rem 0;
+}
+
+@media screen and (max-width: 980px) {
+    .career-highlights,
+    .career-form-container {
+        flex: 1 1 100%;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    .career-highlights,
+    .career-form-container {
+        padding: 1.5rem;
+    }
+
+    .highlights-title,
+    .form-title {
+        font-size: 0.9rem;
+    }
+
+    .benefit-text {
+        font-size: 0.85rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .career-highlights,
+    .career-form-container {
+        padding: 1.25rem;
+        min-width: 0;
+    }
+
+    .workwithus-content {
+        gap: 1rem;
+    }
+}
+
+/* ==================================================================
+   10. CONTATO
+   ================================================================== */
+
+.contact-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+}
+
+.contact-info {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.contact-items {
+    background-color: rgba(27, 31, 34, 0.85);
+    border: solid 1px #ffffff;
+    border-radius: 4px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+}
+
+.contact-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.contact-icon {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border: solid 1px #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+    font-size: 1.5rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.contact-item:hover .contact-icon {
+    background-color: rgba(255, 255, 255, 0.075);
+    transform: scale(1.05);
+}
+
+.contact-details {
+    flex: 1;
+}
+
+.contact-label {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    line-height: 1.5;
+    margin: 0 0 0.5rem 0;
+}
+
+.contact-link {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    border-bottom: dotted 1px rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    transition: all 0.2s ease-in-out;
+    display: inline-block;
+}
+
+.contact-link:hover {
+    color: #ffffff;
+    border-bottom-color: transparent;
+}
+
+.contact-text {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin: 0;
+}
+
+address.contact-text {
+    font-style: normal;
+}
+
+.social-section {
+    background-color: rgba(27, 31, 34, 0.85);
+    border: solid 1px #ffffff;
+    border-radius: 4px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.social-title {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    line-height: 1.5;
+    margin: 0 0 1.5rem 0;
+}
+
+.social-section .icons {
+    margin-bottom: 1.5rem;
+}
+
+.social-section .actions {
+    margin: 0;
+}
+
+@media screen and (max-width: 736px) {
+    .contact-items,
+    .social-section {
+        padding: 1.5rem;
+    }
+
+    .contact-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.25rem;
+        margin-right: 1rem;
+    }
+
+    .contact-label {
+        font-size: 0.75rem;
+    }
+
+    .contact-link,
+    .contact-text {
+        font-size: 0.85rem;
+    }
+
+    .social-title {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .contact-items,
+    .social-section {
+        padding: 1.25rem;
+        min-width: 0;
+    }
+
+    .contact-content {
+        gap: 1rem;
+    }
+
+    .contact-item {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+}
+
+/* ==================================================================
+   11. ACESSIBILIDADE — contorno de foco visível
+   Usa :focus-visible (só teclado) para não piscar contorno em
+   cliques de mouse. Vive aqui, e não em main.css, porque é uma
+   adição da MachPRO ao tema.
+   ================================================================== */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
 }

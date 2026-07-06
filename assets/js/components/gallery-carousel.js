@@ -1,13 +1,14 @@
 /*
-    MachPRO — Gallery carousel (Bootstrap-style, fade)
-    Save as: assets/js/gallery-carousel.js
+MachPRO — Gallery carousel (Bootstrap-style, fade)
+Salvar como: assets/js/components/gallery-carousel.js
 
-    Mirrors Bootstrap's carousel-fade behavior without loading Bootstrap:
-    - One .carousel-item visible at a time; .active crossfades in
-    - Prev/next controls via data-slide="prev|next"
-    - Left/right arrow keys (ignored while the lightbox is open)
-    - Touch swipe support
-    - Updates the "N / 25" counter
+Reproduz o comportamento carousel-fade do Bootstrap sem carregar
+o Bootstrap:
+    - Um .carousel-item visível por vez; o .active entra com crossfade
+- Controles prev/next via data-slide="prev|next"
+    - Setas esquerda/direita do teclado (ignoradas com o lightbox aberto)
+- Suporte a swipe no toque
+- Atualiza o contador "N / 25"
 */
 (function () {
     "use strict";
@@ -19,40 +20,40 @@
     var counter = document.getElementById("carousel-current");
     var current = 0;
 
-    // Find the initial .active slide (defaults to 0)
+    // Encontra o slide .active inicial (padrão: 0)
     for (var i = 0; i < items.length; i++) {
         if (items[i].classList.contains("active")) { current = i; break; }
     }
 
     function goTo(index) {
         items[current].classList.remove("active");
-        current = (index + items.length) % items.length; // wraps around
+        current = (index + items.length) % items.length; // dá a volta
         items[current].classList.add("active");
         if (counter) counter.textContent = current + 1;
     }
 
-    // Prev / next controls (Bootstrap-style data-slide attributes)
+    // Controles prev/next (atributos data-slide, estilo Bootstrap)
     carousel.querySelectorAll("[data-slide]").forEach(function (btn) {
         btn.addEventListener("click", function () {
             goTo(btn.getAttribute("data-slide") === "prev" ? current - 1 : current + 1);
         });
     });
 
-    // Keyboard: left/right arrows — but not while the lightbox is open,
-    // so the two features never fight over the same keys
+    // Teclado: setas esquerda/direita — mas não com o lightbox aberto,
+    // para as duas funcionalidades nunca brigarem pelas mesmas teclas
     document.addEventListener("keydown", function (e) {
         if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
 
         var lightbox = document.getElementById("lightbox");
         if (lightbox && window.getComputedStyle(lightbox).display !== "none") return;
 
-        // Only react when the carousel is actually on screen (its article is open)
+        // Só reage quando o carrossel está na tela (artigo aberto)
         if (carousel.offsetParent === null) return;
 
         goTo(e.key === "ArrowLeft" ? current - 1 : current + 1);
     });
 
-    // Touch swipe
+    // Swipe no toque
     var touchStartX = null;
 
     carousel.addEventListener("touchstart", function (e) {
