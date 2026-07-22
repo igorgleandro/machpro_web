@@ -181,6 +181,8 @@ body.is-article-visible {
     overflow: hidden;
     display: block !important;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .work-card:hover,
@@ -239,6 +241,7 @@ body.is-article-visible {
 
 .portfolio-description {
     margin-bottom: 1.5rem;
+    flex-grow: 1;
 }
 
 @media screen and (max-width: 980px) {
@@ -331,6 +334,7 @@ body.is-article-visible {
     text-transform: uppercase;
     letter-spacing: 0.1rem;
     transition: all 0.3s ease-in-out;
+    margin-top: auto;
 }
 
 .portfolio-card:hover .tag {
@@ -1066,4 +1070,22 @@ select:focus-visible,
 textarea:focus-visible {
     outline: 2px solid rgba(255, 255, 255, 0.5);
     outline-offset: 2px;
+}
+
+/* ===========================
+   Portfolio Images
+   =========================== */
+
+.portfolio-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.portfolio-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
 }
