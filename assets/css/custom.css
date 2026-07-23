@@ -1,12 +1,12 @@
 /* ============================================================
-   MachPRO — custom.css  (v2.0.1)
+   MachPRO — custom.css  (v2.1.1)
 
    TODAS as personalizações do site vivem NESTE arquivo.
    assets/css/main.css é o tema Dimension (HTML5 UP) original e
    NÃO deve ser editado. Como custom.css é carregado depois de
    main.css, estas regras vencem a cascata.
 
-   Removido nesta limpeza (código morto ou nocivo):
+   Removido em limpezas anteriores (código morto ou nocivo):
    - :root com variáveis CSS nunca usadas
    - bloco global @media (prefers-reduced-motion) que matava
      TODAS as animações do tema
@@ -17,6 +17,11 @@
    - display:block !important no artigo #portfolio (impedia o
      JS do tema de esconder o painel)
    - bloco "TEMP TEST" do carrossel
+
+   Novo em v2.1.1:
+   - Seção 12: correção de overflow horizontal em mobile
+     (grids com width:100% + margens negativas estouravam a
+     viewport, forçando o navegador a dar zoom-out)
    ============================================================ */
 
 /* ==================================================================
@@ -1088,4 +1093,42 @@ textarea:focus-visible {
     height: auto;
     display: block;
     border-radius: 4px;
+}
+
+/* ==================================================================
+   12. CORREÇÃO — overflow horizontal em mobile
+   ------------------------------------------------------------------
+   Causa: os grids das seções 4 e 8 combinam "width: 100%" com
+   "margin: -0.5rem". O elemento ocupa 100% da largura disponível e
+   ainda é empurrado 0.5rem para fora de CADA lado — total 1rem além
+   da viewport. O navegador móvel responde diminuindo o zoom até
+   caber, o que faz a página inteira parecer a versão desktop
+   encolhida, mesmo com a meta viewport correta.
+
+   Correção: "width: auto" deixa o container flex se dimensionar
+   naturalmente dentro da caixa de padding do artigo, dando espaço
+   para as margens negativas se expandirem sem estourar a viewport.
+   O overflow-x: hidden em html/body é a rede de segurança.
+   ================================================================== */
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.work-grid,
+.services-grid,
+.portfolio-grid,
+.clients-grid {
+    width: auto !important;
+    max-width: 100%;
+}
+
+#main article#work,
+#main article#portfolio,
+#main article#clients,
+#main article#workwithus,
+#main article#contact {
+    box-sizing: border-box;
 }
